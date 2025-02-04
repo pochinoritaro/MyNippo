@@ -1,8 +1,10 @@
 # application
 *.log
 *.sqlite3
+*.png
 icon.py
-migrate.sh
+*.sh
+environment_switching/
 
 # python
 __pycache__/
