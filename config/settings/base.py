@@ -117,4 +117,4 @@ AUTHENTICATION_BACKENDS = [
 # ログイン用URL
 LOGIN_URL = "/account/login/"
 # ログアウト後、リダイレクトURL
-LOGOUT_REDIRECT_URL = "login/"
+LOGOUT_REDIRECT_URL = LOGIN_URL
