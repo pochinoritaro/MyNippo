@@ -1,0 +1,42 @@
+{% extends "../base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title_block %}
+タスク
+{% endblock %}
+
+{% block body_block %}
+<h1>タスク一覧</h1>
+<div class="row">
+    {% for task in tasks %}
+    <div class="col-md-4 mb-3">
+        <a href="{% url 'task_detail' task.id %}" class="text-decoration-none">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ task.title }}</h5>
+                    <p class="card-text">
+                        <strong>作成者:</strong> {{ task.author.username }}<br>
+
+                        <strong>レビュワー:</strong> 
+                        {% for member in task.reviewer.all %}
+                            {{ member.username }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            なし
+                        {% endfor %}<br>
+
+                        <strong>メンバー:</strong> 
+                        {% for member in task.members.all %}
+                            {{ member.username }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            なし
+                        {% endfor %}<br>
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% empty %}
+        <p>タスクはありません。</p>
+    {% endfor %}
+</div>
+{% endblock %}

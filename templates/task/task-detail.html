@@ -1,0 +1,94 @@
+{% extends "../base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title_block %}
+タスク詳細
+{% endblock %}
+
+{% block sidebar_block %}
+    <!-- サイドバー -->
+    <nav class="bg-light py-3">
+        <ul class="nav flex-column">
+<!--
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'task_list' %}">
+                    <i class="bi bi-list-task"></i> タスク一覧
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' %}">
+                    <i class="bi bi-person"></i> プロフィール
+                </a>
+            </li>
+-->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">メンバー</h5>
+                    {% for member in task.members.all %}
+                        <div class="d-flex align-items-center mb-2">
+                            <img class="card-img-top index-img" src="{{ member.icon.url }}" alt="Icon" style="width: 28px; height: 28px; margin-right: 12px; border-radius: 50%;" />
+                            {{ member.username }}
+                        </div>
+                    {% empty %}
+                        なし
+                    {% endfor %}
+                </div>
+            </div>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block body_block %}
+<h1>タスク詳細</h1>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ task.title }}</h5>
+        <p class="card-text">
+            <strong>作成者:</strong>{{ task.author.username }}<br>
+
+            <strong>概要:</strong>
+            {% if task.description %}
+                {{ task.description }}
+            {% else %}
+                なし
+            {% endif %}<br>
+
+            <strong>レビュワー:</strong> 
+            {% for member in task.reviewer.all %}
+                {{ member.username }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                なし
+            {% endfor %}<br>
+<!--
+            <strong>メンバー:</strong> 
+            {% for member in task.members.all %}
+                {{ member.username }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                なし
+            {% endfor %}<br>
+-->
+            <strong>ドキュメント:</strong> 
+            {% if task.document_url %}
+                <a href="{{ task.document_url }}" target="_blank">リンク</a>
+            {% else %}
+                なし
+            {% endif %}<br>
+            
+            <strong>GitHub:</strong> 
+            {% if task.github_url %}
+                <a href="{{ task.github_url }}" target="_blank">リンク</a>
+            {% else %}
+                なし
+            {% endif %}<br>
+
+            <strong>公開設定:</strong>
+            {% if task.is_public %}
+                公開
+            {% else %}
+                非公開
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+{% endblock %}

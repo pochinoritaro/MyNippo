@@ -1,0 +1,62 @@
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <title>
+            {% block title_block %}{% endblock %}
+        </title>
+    </head>
+
+<header class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'task_list' %}">日報くん</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown d-flex align-items-center">
+                    <!-- アイコンの表示 -->
+                    <img class="card-img-top index-img" src="{{ user.icon.url }}" alt="Icon" style="width: 28px; height: 28px; margin-right: 8px; border-radius: 50%;" />
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                        {{ user.username }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">プロフィール</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item">ログアウト</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</header>
+
+
+    <body>
+        <div class="container-fluid">
+            <div class="row d-flex">
+                <div class="col-md-2 col-lg-2"></div>
+                <!-- メインコンテンツ -->
+                <main class="col-md-8 col-lg-8 flex-grow-1">
+                    {% block body_block %}{% endblock %}
+                </main>
+
+                <!-- 右側のサイドバー -->
+                <aside class="col-md-2 col-lg-2 sidebar py-3 order-1">
+                    {% block sidebar_block %}{% endblock %}
+                </aside>
+            </div>
+        </div>
+    </body>
+</html>
