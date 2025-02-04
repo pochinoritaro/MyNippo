@@ -5,14 +5,26 @@ LOGGING["handlers"] = {
     "console": {
         "level": "DEBUG",
         "class": "logging.StreamHandler",
-        "formatter": "verbose",
-    },
+        "formatter": "verbose"
+    }
 }
 
 LOGGING["loggers"] = {
     "django": {
         "handlers": ["console"],
         "level": "DEBUG",
-        "propagate": True,
+        "propagate": True
+    },
+
+    "account": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+        "propagate": True
+    },
+    
+    "task": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+        "propagate": True
     },
 }
